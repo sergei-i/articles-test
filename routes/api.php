@@ -14,6 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('/articles', 'Api\ArticleController@index')->name('articles.index');
+
+Route::get('/articles/latest/{quantity?}', 'Api\ArticleController@showLatest')
+    ->name('articles.showLatest');
+
+Route::get('/articles/{article:slug}', 'Api\ArticleController@show')->name('articles.show');
+
+Route::put('/articles/{article:slug}/like', 'Api\ArticleLikeController')->name('articles.like.update');
+Route::put('/articles/{article:slug}/view', 'Api\ArticleViewController')->name('articles.view.update');
+Route::post('/articles/{article:slug}/comment', 'Api\ArticleCommentController')
+    ->name('articles.comment.store');
